@@ -36,7 +36,7 @@
             }
 
             &:nth-child(4) {
-                max-width: 251px;
+                max-width: 201px;
                 margin-left: 16px;
 
             }
@@ -47,7 +47,7 @@
             }
 
             &:nth-child(6) {
-                max-width: 59px;
+                max-width: 100px;
                 margin-left: 4px;
             }
 
@@ -188,7 +188,7 @@
         position: relative;
 
         &-drop {
-
+            cursor: pointer;
             display: none;
             padding: 20px;
             position: absolute;
@@ -237,6 +237,7 @@
                 margin-left: 8px;
                 text-align: center;
                 opacity: .9;
+                margin-right: 27px !important;
             }
 
             &:nth-child(3) {
@@ -246,7 +247,7 @@
             }
 
             &:nth-child(4) {
-                max-width: 251px;
+                max-width: 201px;
                 margin-left: 16px;
 
             }
@@ -267,7 +268,7 @@
             }
 
             &:nth-child(6) {
-                max-width: 59px;
+                max-width: 100px;
                 margin-left: 4px;
                 font-family: 'SF Pro Display';
                 font-style: normal;
@@ -394,6 +395,7 @@
                 max-width: 46px;
                 margin-left: 8px;
                 text-align: center;
+
             }
 
             &:nth-child(3) {
@@ -438,10 +440,18 @@
             color: #AC8346;
         }
 
-        &-div {
-            padding: 15px 23px;
-            background: #EEEEEE;
-            border-radius: 7px;
+        &-imgtext {
+            width: 64px;
+            height: 46px;
+            object-fit: cover;
+        }
+
+        &-imgdivtext {
+            display: inline-block;
+            min-width: 64px;
+            height: 46px !important;
+            overflow: hidden;
+
         }
 
         &-div2 {

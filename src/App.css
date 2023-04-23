@@ -461,7 +461,7 @@ main {
   text-align: center;
 }
 .list-itemtop-text:nth-child(4) {
-  max-width: 251px;
+  max-width: 201px;
   margin-left: 16px;
 }
 .list-itemtop-text:nth-child(5) {
@@ -469,7 +469,7 @@ main {
   margin-left: 11px;
 }
 .list-itemtop-text:nth-child(6) {
-  max-width: 59px;
+  max-width: 100px;
   margin-left: 4px;
 }
 .list-itemtop-text:nth-child(7) {
@@ -578,6 +578,7 @@ main {
   position: relative;
 }
 .list-item-drop {
+  cursor: pointer;
   display: none;
   padding: 20px;
   position: absolute;
@@ -618,6 +619,7 @@ main {
   margin-left: 8px;
   text-align: center;
   opacity: 0.9;
+  margin-right: 27px !important;
 }
 .list-item-text:nth-child(3) {
   max-width: 61px;
@@ -625,7 +627,7 @@ main {
   text-align: center;
 }
 .list-item-text:nth-child(4) {
-  max-width: 251px;
+  max-width: 201px;
   margin-left: 16px;
 }
 .list-item-text:nth-child(5) {
@@ -643,7 +645,7 @@ main {
   overflow: hidden;
 }
 .list-item-text:nth-child(6) {
-  max-width: 59px;
+  max-width: 100px;
   margin-left: 4px;
   font-family: "SF Pro Display";
   font-style: normal;
@@ -777,10 +779,17 @@ main {
 .list-item-update {
   color: #AC8346;
 }
-.list-item-div {
-  padding: 15px 23px;
-  background: #EEEEEE;
-  border-radius: 7px;
+.list-item-imgtext {
+  width: 64px;
+  height: 46px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.list-item-imgdivtext {
+  display: inline-block;
+  min-width: 64px;
+  height: 46px !important;
+  overflow: hidden;
 }
 .list-item-div2 {
   position: relative;
@@ -864,6 +873,7 @@ main {
   align-items: center;
   margin-right: auto;
   border: none;
+  cursor: pointer;
 }
 .ServicesFrom_top-delete::before {
   content: "";
@@ -897,6 +907,13 @@ main {
   background: #FFFFFF;
   border-radius: 12px;
   border: none;
+  cursor: pointer;
+}
+.ServicesFrom_top-Publish:hover {
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
+}
+.ServicesFrom_top-Publish:active {
+  box-shadow: 0px 0px 0px 0px;
 }
 .ServicesFrom_from {
   width: 100%;
@@ -961,6 +978,13 @@ main {
   display: flex;
   align-content: flex-start;
   flex-wrap: wrap;
+}
+.ServicesFrom_from-imgvie {
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
+  overflow: hidden !important;
+  max-height: 81px !important;
+  cursor: pointer;
 }
 .ServicesFrom_from-mid {
   display: flex;
@@ -1071,6 +1095,19 @@ main {
   color: #000000;
   opacity: 0.6;
 }
+.ServicesFrom_from-mid-inputtext {
+  padding-bottom: 10px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.7);
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  color: #000000;
+}
 .ServicesFrom_from .img2 {
   width: 105px;
   height: 81px;
@@ -1132,4 +1169,21 @@ main {
 
 .mid2-div > div > .ymaps-2-1-79-map:nth-child(2) {
   display: none !important;
+}
+
+.loader {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  padding-top: 20%;
+  z-index: 1000;
+}
+.loader img {
+  display: inline-block;
+  width: 100px;
+  margin: 0 auto;
 }/*# sourceMappingURL=App.css.map */

@@ -20,6 +20,7 @@ import ProjectAddFrom from '../ProjectAddFrom/ProjectAddFrom'
 import NewsAddFrom from '../NewsAddFrom/NewsAddFrom'
 import PratnorsAddFrom from '../partnorsAddFrom/partnorsAddFrom'
 
+
 export default function Bodyadmin() {
     return (
         <div className='Bodyadmin'>
@@ -28,6 +29,7 @@ export default function Bodyadmin() {
                 <div className='Bodyadmin-left'>
                     <Routes>
                         {/* <Route path={routes.HOME} element={<Home />} /> */}
+                        <Route path={'/index'} element={<></>} />
                         <Route path={routes.SERVICES} element={<ServicesList />} />
                         <Route path={routes.ADDSERVICES} element={<ServicesAddFrom />} />
                         <Route path={routes.UPDATESERVICES + "/:id"} element={<ServicesFrom />} />
