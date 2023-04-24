@@ -9,8 +9,6 @@ import { createObjects } from '../../shared/api/object';
 import { UploadImg } from '../../shared/api/multer';
 import Loader from '../ul/loader/Loader';
 
-
-
 export default function ProjectAddFrom() {
     const navgate = useNavigate()
     const [tag, setTags] = useState('')
@@ -21,7 +19,6 @@ export default function ProjectAddFrom() {
     const [img2, setImg2] = useState()
     const [img3, setImg3] = useState()
     const [img4, setImg4] = useState()
-
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit, control, formState: { errors } } = useForm();
 
@@ -47,8 +44,6 @@ export default function ProjectAddFrom() {
             toast('inputs are requred to fill')
             setLoading(false)
         }
-
-
     }
     const hendleimg = async (e) => {
         if (e.target.files[0]) {
