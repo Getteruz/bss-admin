@@ -1,45 +1,58 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import eye from "../../assets/images/Iconseye.svg"
 import img from "../../assets/images/Rectangle 23390.svg"
 import icons from "../../assets/images/Vector3.svg"
 import clcik from "../../assets/images/Groupclick.svg"
 import routes from '../../shared/constants/routes'
+import { deleteNews, GetNews } from '../../shared/api/news'
+import Loader from '../ul/loader/Loader'
 
-const data = [
-    {
-        id: "0083",
-        title: "Success usually comes to those who are too busy to be looking for it.",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача!",
-        data: "13.03.2021",
-        sosaid: "177",
-        view: "274"
-    },
-    {
-        id: "0084",
-        title: "Success usually comes to those who are too busy to be looking for it.",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача!",
-        data: "13.03.2021",
-        sosaid: "177",
-        view: "274"
-    },
-    {
-        id: "0085",
-        title: "Success usually comes to those who are too busy to be looking for it.",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача!",
-        data: "13.03.2021",
-        sosaid: "177",
-        view: "274"
-    }
-]
 
 
 export default function Newslist() {
     const [tr, settr] = useState<string | boolean>("")
     const navigate = useNavigate()
+    const [data1, setData1] = useState<any>()
     const x: any = useRef()
+    const ul: any = useRef()
+    const [isDalete, setIsDalete] = useState<boolean>(false)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const fetchWebSite = async () => {
+            const data = await GetNews();
+            setData1(data?.news)
+            setLoading(false)
+        }
+        fetchWebSite()
+            .then((err) => {
+                console.log("err");
+            })
+
+    }, [isDalete]);
+
+
+
+    const handleDelete = (id: any) => {
+        setLoading(true)
+        setIsDalete(false)
+        deleteNews(id)
+            .then((response: any) => {
+                setLoading(false)
+                if (response?.status === 204) {
+                    alert("deleted")
+                }
+                setIsDalete(true)
+            })
+            .catch(error => {
+                alert(error.message)
+                setLoading(false)
+            })
+
+    }
     return (
         <div>
+            {loading ? <Loader /> : ''}
             <div className='Filter'>
                 <button className='Filter-add' onClick={() => navigate(routes.ADDNEWS)}>+ Добавить товар</button>
             </div>
@@ -54,22 +67,22 @@ export default function Newslist() {
                     <img className='list-itemtop-text3' src={icons} alt="" />
                     <img className='list-itemtop-text3' src={eye} alt="" />
                 </li>
-                {data && data.map((e) => (
-                    <li className='list-item'>
+                {data1 && data1.map((e: any, i: any) => (
+                    <li key={e?._id} className='list-item'>
                         <input type="checkbox" />
-                        <p className='list-item-text3'>ID:{e?.id} { }</p>
-                        <div className='list-item-text3  list-item-div2'><img src={img} alt="" /> <img src={img} alt="" /> <img src={img} alt="" /></div>
+                        <p className='list-item-text3'>ID:{i + 1} </p>
+                        <div className='list-item-text3  list-item-div2'><img src={e?.img[0]} alt="" />{e?.img[1] ? <img src={e?.img[1]} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2]} alt="" /> : ''}</div>
                         <p className='list-item-text3'>{e?.title.slice(0, 40)}...</p>
                         <p className='list-item-text3'>{e?.text.slice(0, 40)}...</p>
                         <p className='list-item-text3'>{e?.data}</p>
-                        <p className='list-item-text3'>{e?.sosaid}</p>
+                        <p className='list-item-text3'>0</p>
                         <p className='list-item-text3'>{e?.view}</p>
-                        <img className='list-item-textimg' src={clcik} alt="" width={4} onClick={() => settr(state => state === e.id ? false : e.id)} />
+                        <img className='list-item-textimg' style={{ padding: " 0 5px", cursor: 'pointer' }} src={clcik} alt="img" width={3} onClick={() => settr(state => state === e._id ? false : e._id)} />
 
-                        <ul ref={x} className='list-item-drop ' style={tr == e.id ? { display: "inline-block", zIndex: 10 } : { display: "none", zIndex: 0 }} >
-                            <li className='list-item-drop-text'><Link to={routes.UPDATENEWS + `/${e?.id}`}>Изменить</Link></li>
+                        <ul ref={x} className='list-item-drop ' style={tr == e._id ? { display: "inline-block", zIndex: 10 } : { display: "none", zIndex: 0 }} >
+                            <li className='list-item-drop-text'><Link to={routes.UPDATENEWS + `/${e?._id}`}>Изменить</Link></li>
                             <li className='list-item-drop-text'>Копировать</li>
-                            <li className='list-item-drop-text'>Удалить</li>
+                            <li className='list-item-drop-text' onClick={() => handleDelete(e._id)}>Удалить</li>
                         </ul>
                     </li>
                 ))}

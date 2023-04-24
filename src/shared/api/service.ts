@@ -1,5 +1,5 @@
 import urls from "../constants/urls";
-import api from "axios";
+import api from "./axios";
 
 export const GetService = async () => {
     const response = await api.get(urls.SERVICE);
