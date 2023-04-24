@@ -799,8 +799,9 @@ main {
   width: 61px;
   height: 46px;
   position: absolute;
-  -o-object-fit: contain;
-     object-fit: contain;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
   top: 0;
   left: 0;
   z-index: 10;

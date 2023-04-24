@@ -1,51 +1,61 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import eye from "../../assets/images/Iconseye.svg"
 import img from "../../assets/images/Rectangle 23390.svg"
 import clcik from "../../assets/images/Groupclick.svg"
 import { Link, useNavigate } from 'react-router-dom'
 import routes from '../../shared/constants/routes'
+import { deleteObjects, GetObjects } from '../../shared/api/object'
+import Loader from '../ul/loader/Loader'
 
-const data = [
-    {
-        id: "0069",
-        img: img,
-        img2: img,
-        img3: img,
-        title: "Здоровье и безопасность",
-        location: "Узбекистан",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача",
-        data: "13.03.2021",
-        view: "1,5k"
-    },
-    {
-        id: "0070",
-        img: img,
-        img2: img,
-        img3: img,
-        title: "Здоровье и безопасность",
-        location: "Узбекистан",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача",
-        data: "13.03.2021",
-        view: "1,5k"
-    },
-    {
-        id: "0071",
-        img: img,
-        img2: img,
-        img3: img,
-        title: "Здоровье и безопасность",
-        location: "Узбекистан",
-        text: "Обеспечение безопасности ваших сотрудников и бесперебойной работы вашего бизнеса — наша главная задача",
-        data: "13.03.2021",
-        view: "1,5k"
-    }
-]
 
 export default function ProjectList() {
-    const [tr, settr] = useState<string | boolean>("")
     const navigate = useNavigate()
+
+
+
+    const [data1, setData1] = useState<any>()
+    const x: any = useRef()
+    const ul: any = useRef()
+    const [isDalete, setIsDalete] = useState<boolean>(false)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchWebSite = async () => {
+            const data = await GetObjects();
+            setData1(data?.object)
+            setLoading(false)
+        }
+        fetchWebSite()
+            .then((err) => {
+                console.log("err");
+            })
+
+    }, [isDalete]);
+
+
+
+    const handleDelete = (id: any) => {
+        setLoading(true)
+        setIsDalete(false)
+        deleteObjects(id)
+            .then((response: any) => {
+                setLoading(false)
+                if (response?.status === 204) {
+                    alert("deleted")
+                }
+                setIsDalete(true)
+            })
+            .catch(error => {
+                alert(error.message)
+                setLoading(false)
+            })
+
+    }
+
+    const [tr, settr] = useState<string | boolean>("")
     return (
         <div>
+            {loading ? <Loader /> : ''}
             <div className='Filter'>
                 <button className='Filter-add' onClick={() => navigate(routes.ADDPROJECT)}>+ Добавить товар</button>
             </div>
@@ -62,21 +72,21 @@ export default function ProjectList() {
                     <p className='list-itemtop-text2'>Action</p>
                 </li>
                 {
-                    data && data.map((e: any) => (
+                    data1 && data1.map((e: any, i: any) => (
                         <li className='list-item'>
                             <input type="checkbox" />
-                            <p className='list-item-text2'>ID: {e.id}</p>
-                            <div className='list-item-text2  list-item-div2'><img src={img} alt="" /> <img src={img} alt="" /> <img src={img} alt="" /></div>
+                            <p className='list-item-text2'>ID:{i + 1} </p>
+                            <div className='list-item-text2  list-item-div2'><img src={e?.img[0]} alt="" />{e?.img[1] ? <img src={e?.img[1]} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2]} alt="" /> : ''}</div>
                             <p className='list-item-text2'>{e?.title}</p>
-                            <p className='list-item-text2'>{e?.location}</p>
+                            <p className='list-item-text2'>{e?.tag}</p>
                             <p className='list-item-text2'>{e?.text.slice(0, 50)}...</p>
                             <p className='list-item-text2'>{e?.data}</p>
                             <p className='list-item-text2'>{e?.view}</p>
-                            <p className='list-item-text2'><Link className='list-item-update' to={routes.UPDATEOBJECT + `/${e.id}`}>Изменить</Link></p>
-                            <img src={clcik} alt="" width={4} onClick={() => settr(state => state === e.id ? false : e.id)} />
-                            <ul className='list-item-drop' style={tr == e.id ? { display: "inline-block", zIndex: 10 } : { display: "none", zIndex: 0 }} >
+                            <p className='list-item-text2'><Link className='list-item-update' to={routes.UPDATEOBJECT + `/${e._id}`}>Изменить</Link></p>
+                            <img src={clcik} style={{ padding: " 0 5px", cursor: 'pointer' }} alt="" width={13} onClick={() => settr(state => state === e._id ? false : e._id)} />
+                            <ul className='list-item-drop' style={tr == e._id ? { display: "inline-block", zIndex: 10 } : { display: "none", zIndex: 0 }} >
                                 <li className='list-item-drop-text'>Копировать</li>
-                                <li className='list-item-drop-text'>Удалить</li>
+                                <li className='list-item-drop-text' onClick={() => handleDelete(e._id)}>Удалить</li>
                             </ul>
                         </li>
                     ))

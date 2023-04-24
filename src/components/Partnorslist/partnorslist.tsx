@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import img from "../../assets/images/Rectangle393.png"
 import clcik from "../../assets/images/Groupclick.svg"
 import { Link, useNavigate } from 'react-router-dom'
 import routes from '../../shared/constants/routes'
+import { deleteObjects, GetObjects } from '../../shared/api/object'
+import Loader from '../ul/loader/Loader'
 
 const data = [
     {
@@ -24,9 +26,50 @@ const data = [
 export default function Partnorslist() {
     const navigate = useNavigate()
 
+
+
+    const [data1, setData1] = useState<any>()
+    const x: any = useRef()
+    const ul: any = useRef()
+    const [isDalete, setIsDalete] = useState<boolean>(false)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchWebSite = async () => {
+            const data = await GetObjects();
+            setData1(data?.service)
+            setLoading(false)
+        }
+        fetchWebSite()
+            .then((err) => {
+                console.log("err");
+            })
+
+    }, [isDalete]);
+
+
+    const handleDelete = (id: any) => {
+        setLoading(true)
+        setIsDalete(false)
+        deleteObjects(id)
+            .then((response: any) => {
+                setLoading(false)
+                if (response?.status === 204) {
+                    alert("deleted")
+                }
+                setIsDalete(true)
+            })
+            .catch(error => {
+                alert(error.message)
+                setLoading(false)
+            })
+
+    }
+
     const [tr, settr] = useState<string | boolean>("")
     return (
         <div>
+            {loading ? <Loader /> : ""}
             <div className='Filter'>
                 <button className='Filter-add' onClick={() => navigate(routes.ADDPARTNORS)}>+ Добавить товар</button>
             </div>

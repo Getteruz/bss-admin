@@ -462,8 +462,8 @@
                 width: 61px;
                 height: 46px;
                 position: absolute;
-                object-fit: contain;
-
+                object-fit: cover;
+                border-radius: 5px;
                 top: 0;
                 left: 0;
                 z-index: 10;
