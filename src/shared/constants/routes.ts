@@ -16,6 +16,8 @@ const routes: any = {
   PARTNORS: "/Partnors",
   ADDPARTNORS: "/addPartnors",
   UPDATEPARTNORS: '/updatePartnors'
-};
+}
+
+  ;
 
 export default routes;

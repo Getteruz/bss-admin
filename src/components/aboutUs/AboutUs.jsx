@@ -17,8 +17,8 @@ export default function AboutUs() {
     const [text, setText] = useState(data?.text)
     const [text2, setText2] = useState(data?.text2)
     const [text3, setText3] = useState(data?.text3)
-    const [img1, setImg1] = useState()
-    const [img2, setImg2] = useState()
+    const [img1, setImg1] = useState(data?.img)
+
     const [aboutusId, setAboutusId] = useState(data?._id)
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -31,8 +31,8 @@ export default function AboutUs() {
             setText(data?.aboutus[0]?.text)
             setText2(data?.aboutus[0]?.text2)
             setText3(data?.aboutus[0]?.text3)
-            setImg1(data?.aboutus[0]?.img[0])
-            setImg2(data?.aboutus[0]?.img[1])
+            setImg1(data?.aboutus[0]?.img)
+
             setAboutusId(data?.aboutus[0]?._id)
         }
         fetchNews()
@@ -41,12 +41,14 @@ export default function AboutUs() {
             })
 
     }, []);
+
     const { register, handleSubmit, control, formState: { errors } } = useForm();
 
     const HandleAddWebsite = async () => {
         setLoading(true)
+
         if (text && text2 && text3 && name && title && img1) {
-            await UpdateAboutUs({ title: title, text: text, text2: text2, text3: text3, img: [img1 && img1, img2 && img2], name: name }, aboutusId)
+            await UpdateAboutUs({ title: title, text: text, text2: text2, text3: text3, img: img1, name: name }, aboutusId)
                 .then((response) => {
                     if (response.status == 200) {
                         setLoading(false)
@@ -73,28 +75,13 @@ export default function AboutUs() {
             formData.append("image", e.target.files[0])
             await UploadImg(formData)
                 .then((response) => {
-                    setImg1(response?.data)
+                    setImg1(status => [...status, response?.data])
 
                 })
                 .catch(error => {
                     setLoading(false)
                     toast(error.message)
 
-                })
-        }
-    }
-    const hendleimg2 = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg2(response?.data)
-
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
                 })
         }
     }
@@ -113,12 +100,14 @@ export default function AboutUs() {
                     <div className='mid2-div'>
                         <label className='ServicesFrom_from-img img2' >
                             <input className='img2-img' type={"file"} onChange={hendleimg} />
-                            <img className='ServicesFrom_from-imgvie' src={img1 || img} alt="" width={105} />
+                            <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
                         </label>
-                        <label className='ServicesFrom_from-img img2' >
-                            <input className='img2-img' type={"file"} onChange={hendleimg2} />
-                            <img className='ServicesFrom_from-imgvie' src={img2 || img} alt="" width={105} />
-                        </label>
+                        {img1 && img1.map((e, i) => (
+                            <div className='ServicesFrom_from-imgviedivcha'>
+                                <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
+                                <div> X</div>
+                            </div>
+                        ))}
                     </div>
                     <div className='ServicesFrom_from-mid-left'>
                         <input className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" placeholder='Загаловок' value={title} onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={(e) => {
@@ -136,7 +125,7 @@ export default function AboutUs() {
                 </div>
                 <input className='ServicesFrom_from-mid-inputtext' style={{ "marginTop": "20px" }} value={text} name="text" type="text" placeholder='описания' onChange={(e) => setText(e.target.value)} />
                 <input className='ServicesFrom_from-mid-inputtext' style={{ "marginTop": "60px" }} value={text2} name="text" type="text" placeholder='описания' onChange={(e) => setText2(e.target.value)} />
-                <input className='ServicesFrom_from-mid-inputtext' style={{ "marginTop": "60px" }} value={text3} name="text" type="text" placeholder='описания' onChange={(e) => setText2(e.target.value)} />
+                <input className='ServicesFrom_from-mid-inputtext' style={{ "marginTop": "60px" }} value={text3} name="text" type="text" placeholder='описания' onChange={(e) => setText3(e.target.value)} />
             </form >
             <Toaster />
         </div >

@@ -76,7 +76,7 @@ export default function ProjectList() {
                         <li key={e._id} className='list-item'>
                             <input type="checkbox" />
                             <p className='list-item-text2'>ID:{i + 1} </p>
-                            <div className='list-item-text2  list-item-div2'><img src={e?.img[0]} alt="" />{e?.img[1] ? <img src={e?.img[1]} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2]} alt="" /> : ''}</div>
+                            <div className='list-item-text2  list-item-div2'><img src={e?.img[0]?.url} alt="" />{e?.img[1] ? <img src={e?.img[1].url} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2]?.url} alt="" /> : ''}</div>
                             <p className='list-item-text2'>{e?.title}</p>
                             <p className='list-item-text2'>{e?.tag}</p>
                             <p className='list-item-text2'>{e?.text.slice(0, 50)}...</p>

@@ -71,7 +71,7 @@ export default function Newslist() {
                     <li key={e?._id} className='list-item'>
                         <input type="checkbox" />
                         <p className='list-item-text3'>ID:{i + 1} </p>
-                        <div className='list-item-text3  list-item-div2'><img src={e?.img[0]} alt="" />{e?.img[1] ? <img src={e?.img[1]} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2]} alt="" /> : ''}</div>
+                        <div className='list-item-text3  list-item-div2'><img src={e?.img[0].url} alt="" />{e?.img[1] ? <img src={e?.img[1].url} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2].url} alt="" /> : ''}</div>
                         <p className='list-item-text3'>{e?.title.slice(0, 40)}...</p>
                         <p className='list-item-text3'>{e?.text.slice(0, 40)}...</p>
                         <p className='list-item-text3'>{e?.data}</p>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import img from "../../assets/images/Rectangldskdjsk.svg";
+import img from "../../assets/images/Group48098387.png";
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import routes from '../../shared/constants/routes';
@@ -14,7 +14,7 @@ export default function ServicesFrom() {
     const [data1, setData] = useState()
     const [title, setTitle] = useState(data1?.title)
     const [text, setText] = useState(data1?.text)
-    const [img1, setImg1] = useState(data1?.img[0])
+    const [img1, setImg1] = useState(data1?.img)
 
     const [loading, setLoading] = useState(true)
     const param = useParams()
@@ -25,7 +25,7 @@ export default function ServicesFrom() {
             setData(data)
             setTitle(data?.title)
             setText(data?.text)
-            setImg1(data?.img[0])
+            setImg1(data?.img)
             setLoading(false)
         }
         fetchWebSite()
@@ -41,7 +41,7 @@ export default function ServicesFrom() {
         setLoading(true)
         if (text && title && img1) {
 
-            await UpdateService({ title: title, text: text, img: [img1] }, param?.id)
+            await UpdateService({ title: title, text: text, img: img1 }, param?.id)
                 .then((response) => {
                     if (response.status == 200) {
                         setLoading(false)
@@ -69,12 +69,13 @@ export default function ServicesFrom() {
             formData.append("image", e.target.files[0])
             await UploadImg(formData)
                 .then((response) => {
-                    console.log(response)
-                    setImg1(response?.data)
+                    setImg1(status => [...status, response?.data])
+
                 })
                 .catch(error => {
                     setLoading(false)
-                    alert(error.message)
+                    toast(error.message)
+
                 })
         }
     }
@@ -97,14 +98,34 @@ export default function ServicesFrom() {
                         <div className='mid2-div'>
                             <label className='ServicesFrom_from-img img2' >
                                 <input className='img2-img' type={"file"} onChange={hendleimg} />
-                                <img className='ServicesFrom_from-imgvie' src={img1 || data1?.img} alt="" width={105} name="img" />
+                                <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
                             </label>
+                            {img1 && img1.map((e, i) => (
+                                <div className='ServicesFrom_from-imgviedivcha'>
+                                    <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
+                                    <div> X</div>
+                                </div>
+                            ))}
                         </div>
                         <div className='ServicesFrom_from-mid-left'>
-                            <input className='ServicesFrom_from-mid-inputtitle inputtitle2' name="title" type="text" placeholder='Название услуги' value={title} onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={(e) => setTitle(e.target.value)} />
+                            <textarea className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" value={title} placeholder='Названиеуслуги' onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={e => {
+                                e.target.classList.add("inputtagcolor")
+                                setTitle(e.target.value)
+                                e.target.style.height = "51px";
+                                e.target.style.height = (e.target.scrollHeight) + "px";
+                            }} >
+
+                            </textarea>
                         </div>
                     </div>
-                    <input className='ServicesFrom_from-mid-inputtext' name="text" type="text" placeholder='text' value={text} onChange={(e) => setText(e.target.value)} />
+                    <textarea className='ServicesFrom_from-mid-inputtext' name="text" value={text} type="text" placeholder='описания' onChange={(e) => {
+                        e.target.style.height = "37px";
+                        e.target.style.height = (e.target.scrollHeight) + "px";
+                        setText(e.target.value)
+
+                    }} >
+
+                    </textarea>
 
                 </div>
             </form>

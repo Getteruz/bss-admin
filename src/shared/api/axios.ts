@@ -1,8 +1,9 @@
 import axios from "axios";
-const BASE_URL = "https://api.bss-safety.uz"
+// const BASE_URL = "https://api.bss-safety.uz"
+
 
 const instance = axios.create({
-    baseURL: BASE_URL
+    baseURL: 'https://api.bss-safety.uz'
 });
 instance.interceptors.request.use((config) => {
 

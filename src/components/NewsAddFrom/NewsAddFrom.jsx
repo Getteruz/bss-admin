@@ -20,17 +20,15 @@ export default function NewsAddFrom() {
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
     const [calendar, setCalendar] = useState('')
-    const [img1, setImg1] = useState()
-    const [img2, setImg2] = useState()
-    const [img3, setImg3] = useState()
-    const [img4, setImg4] = useState()
+    const [img1, setImg1] = useState([])
+
     const [loading, setLoading] = useState(false)
     const { register, handleSubmit, control, formState: { errors } } = useForm();
 
     const HandleAddWebsite = async () => {
         setLoading(true)
         if (text && title && img1 && tag, calendar) {
-            await createNews({ title: title, text: text, img: [img1 && img1, img2 && img2, img3 && img3, img4 && img4], tag: tag, data: calendar })
+            await createNews({ title: title, text: text, img: img1, tag: tag, data: calendar })
                 .then((response) => {
                     if (response.status == 200) {
                         setLoading(false)
@@ -58,7 +56,7 @@ export default function NewsAddFrom() {
             formData.append("image", e.target.files[0])
             await UploadImg(formData)
                 .then((response) => {
-                    setImg1(response?.data)
+                    setImg1(status => [...status, response?.data])
 
                 })
                 .catch(error => {
@@ -68,54 +66,7 @@ export default function NewsAddFrom() {
                 })
         }
     }
-    const hendleimg2 = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg2(response?.data)
 
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
-
-                })
-        }
-    }
-    const hendleimg3 = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg3(response?.data)
-
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
-
-                })
-        }
-    }
-    const hendleimg4 = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg4(response?.data)
-
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
-
-                })
-        }
-    }
     return (
         <div className='ServicesFrom'>
             {loading ? <Loader /> : ''}
@@ -132,26 +83,25 @@ export default function NewsAddFrom() {
                     <div className='mid2-div'>
                         <label className='ServicesFrom_from-img img2' >
                             <input className='img2-img' type={"file"} onChange={hendleimg} />
-                            <img className='ServicesFrom_from-imgvie' src={img1 || img} alt="" width={105} height={81} />
+                            <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
                         </label>
-                        <label className='ServicesFrom_from-img img2' >
-                            <input className='img2-img' type={"file"} onChange={hendleimg2} />
-                            <img className='ServicesFrom_from-imgvie' src={img2 || img} alt="" width={105} height={81} />
-                        </label>
-                        <label className='ServicesFrom_from-img img2'  >
-                            <input className='img2-img' type={"file"} onChange={hendleimg3} />
-                            <img className='ServicesFrom_from-imgvie' src={img3 || img} alt="" width={105} height={81} />
-                        </label>
-                        <label className='ServicesFrom_from-img img2' >
-                            <input className='img2-img' type={"file"} onChange={hendleimg4} />
-                            <img className='ServicesFrom_from-imgvie' src={img4 || img} alt="" width={105} height={81} />
-                        </label>
+                        {img1 && img1.map((e, i) => (
+                            <div className='ServicesFrom_from-imgviedivcha'>
+                                <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
+                                <div> X</div>
+                            </div>
+                        ))}
                     </div>
                     <div className='ServicesFrom_from-mid-left'>
-                        <input className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" placeholder='Название объекта' onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={e => {
+                        <textarea className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" placeholder='Название' onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={e => {
                             e.target.classList.add("inputtagcolor")
                             setTitle(e.target.value)
-                        }} />
+                            e.target.style.height = "51px";
+                            e.target.style.height = (e.target.scrollHeight) + "px";
+                        }} >
+
+                        </textarea>
+
                         <div className='ServicesFrom_from-mid-tags'>
                             <input className='ServicesFrom_from-mid-inputtag' type="text" value={tag} placeholder='Узбекистан' onClick={(e) => e.target.classList.add("inputtagcolor")} onChange={e => {
                                 setTags(e.target.value)
@@ -159,11 +109,18 @@ export default function NewsAddFrom() {
 
                         </div>
                         <input className='ServicesFrom_from-mid-date' type="date" onChange={(e) => setCalendar(e.target.value)} />
-                        <input className='ServicesFrom_from-mid-inputtext' style={{ "marginTop": "80px" }} name="text" type="text" placeholder='описания' onChange={(e) => setText(e.target.value)} />
+
                     </div>
                 </div>
-                <Toaster />
+                <textarea className='ServicesFrom_from-mid-inputtext' name="text" type="text" placeholder='описания' onChange={(e) => {
+                    e.target.style.height = "37px";
+                    e.target.style.height = (e.target.scrollHeight) + "px";
+                    setText(e.target.value)
+                }} >
+
+                </textarea>
             </form>
+            <Toaster />
         </div>
     )
 }

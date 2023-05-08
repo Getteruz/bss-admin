@@ -33,9 +33,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (token) {
-      navigate('/')
-    } else {
+    if (!token) {
       navigate('/login')
     }
   }, [token])
@@ -45,7 +43,7 @@ function App() {
       <GlobalContext.Provider value={{ page, setPage: hendleSetPage }}>
         <Routes>
           <Route path='/' element={<Home />} >
-            <Route path={'/index'} element={<></>} />
+            <Route path={'index'} element={<></>} />
             <Route path={'Services'} element={<ServicesList />} />
             <Route path={routes.ADDSERVICES} element={<ServicesAddFrom />} />
             <Route path={routes.UPDATESERVICES + "/:id"} element={<ServicesFrom />} />
