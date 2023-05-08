@@ -91,8 +91,8 @@ export default function ServicesList() {
                             <input type="checkbox" />
                             <p className='list-item-text'>ID: {e?.id}</p>
                             <div className='list-item-text  list-item-div2'><img src={e?.img[0].url} alt="" />{e?.img[1] ? <img src={e?.img[1].url} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2].url} alt="" /> : ''}</div>
-                            <p className='list-item-text'>{e.title}</p>
-                            <p className='list-item-text'>{e?.text.slice(0, 50)}...</p>
+                            <p className='list-item-text'>{e.uz_title}</p>
+                            <p className='list-item-text'>{e?.uz_text.slice(0, 50)}...</p>
                             <p className='list-item-text'>{e?.createdAt.slice(0, 10)}</p>
                             <p className='list-item-text'>{e?.view}</p>
                             <p className='list-item-text'><Link className='list-item-update' to={routes.UPDATESERVICES + `/${e?._id}`}>Изменить</Link></p>
