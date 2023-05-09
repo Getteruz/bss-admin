@@ -6,7 +6,7 @@ import routes from '../../shared/constants/routes';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { createObjects } from '../../shared/api/object';
-import { UploadImg } from '../../shared/api/multer';
+import { DeleteImg, UploadImg } from '../../shared/api/multer';
 import Loader from '../ul/loader/Loader';
 
 export default function ProjectAddFrom() {
@@ -87,13 +87,17 @@ export default function ProjectAddFrom() {
                             <input className='img2-img' type={"file"} onChange={hendleimg} />
                             <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
                         </label>
-                        {img1 && img1.map((e, i) => (
-                            <div className='ServicesFrom_from-imgviedivcha'>
-                                <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
-                                <div> X</div>
-                            </div>
-                        ))}
-
+                        {
+                            img1 && img1.map((e, i) => (
+                                <div className='ServicesFrom_from-imgviedivcha'>
+                                    <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
+                                    <div onClick={() => {
+                                        DeleteImg({ path: e?.path })
+                                        setImg1((state) => state.filter((_, index) => index !== i))
+                                    }}> X</div>
+                                </div>
+                            ))
+                        }
                     </div>
                     <div className='ServicesFrom_from-mid-left'>
                         <textarea className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" placeholder='Название объекта' onClick={(e) => e.target.classList.add("inputtagcolor")}

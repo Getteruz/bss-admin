@@ -6,7 +6,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import routes from '../../shared/constants/routes';
 import { useForm } from 'react-hook-form';
 import { createNews } from '../../shared/api/news';
-import { UploadImg } from '../../shared/api/multer';
+import { DeleteImg, UploadImg } from '../../shared/api/multer';
 import Loader from '../ul/loader/Loader';
 
 // const RichText = withDynamic()(lazy(() => import('../richText/RichText'), { ssr: false }));
@@ -73,11 +73,11 @@ export default function NewsAddFrom() {
         <form className='ServicesFrom'>
             {loading ? <Loader /> : ''}
             <div className="ServicesFrom_top">
-                <button className='ServicesFrom_top-back'><Link className='ServicesFrom_top-back2' to={routes.PROJECTS}> Добавление news
-                </Link></button>
-                <button className='ServicesFrom_top-Edit btnopacity'>Изменить</button>
-                <button className='ServicesFrom_top-delete btnopacity'>Удалить</button>
-                <button className='ServicesFrom_top-Cancel'>Отменить</button>
+                <div className='ServicesFrom_top-back'><Link className='ServicesFrom_top-back2' to={routes.NEWS}> Добавление news
+                </Link></div>
+                <div className='ServicesFrom_top-Edit btnopacity'>Изменить</div>
+                <div className='ServicesFrom_top-delete btnopacity'>Удалить</div>
+                <div className='ServicesFrom_top-Cancel'>Отменить</div>
                 <button className='ServicesFrom_top-Publish' onClick={handleSubmit(HandleAddWebsite)}  >Сохранить</button>
             </div>
             <div className="ServicesFrom_from" >
@@ -96,7 +96,10 @@ export default function NewsAddFrom() {
                         {img1 && img1.map((e, i) => (
                             <div className='ServicesFrom_from-imgviedivcha'>
                                 <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
-                                <div> X</div>
+                                <div onClick={() => {
+                                    DeleteImg({ path: e?.path })
+                                    setImg1((state) => state.filter((_, index) => index !== i))
+                                }}> X</div>
                             </div>
                         ))}
                     </div>
