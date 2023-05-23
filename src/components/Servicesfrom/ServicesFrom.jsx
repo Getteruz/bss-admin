@@ -17,7 +17,7 @@ export default function ServicesFrom() {
     const watchedFiles = watch()
     const [params, setSearchParams] = useSearchParams()
     const param = useParams()
-    const [img1, setImg1] = useState(data1?.img)
+
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export default function ServicesFrom() {
             setValue("ru_text", data?.ru_text)
             setValue("tr_text", data?.tr_text)
             setValue("en_text", data?.en_text)
-            setImg1(data?.img)
+
             setData(data)
             setLoading(false)
         }
@@ -44,7 +44,7 @@ export default function ServicesFrom() {
     const HandleAddWebsite = async (data) => {
         setLoading(true)
         if (data) {
-            await UpdateService({ img: img1, ...data }, param?.id)
+            await UpdateService({ img: ["null"], ...data }, param?.id)
                 .then((response) => {
                     if (response.status == 200) {
                         setLoading(false)
@@ -63,20 +63,7 @@ export default function ServicesFrom() {
             setLoading(false)
         }
     }
-    const hendleimg = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg1(status => [...status, response?.data])
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
-                })
-        }
-    }
+
 
     useEffect(() => {
         if (!['uz', 'ru', 'tr', 'en']?.includes(params.get('lang'))) {
@@ -105,19 +92,8 @@ export default function ServicesFrom() {
                     </ul>
                     <div className='ServicesFrom_from-mid mid2'>
                         <div className='mid2-div'>
-                            <label className='ServicesFrom_from-img img2' >
-                                <input className='img2-img' type={"file"} onChange={hendleimg} />
-                                <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
-                            </label>
-                            {img1 && img1.map((e, i) => (
-                                <div className='ServicesFrom_from-imgviedivcha'>
-                                    <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
-                                    <div onClick={() => {
-                                        DeleteImg({ path: e?.path })
-                                        setImg1((state) => state.filter((_, index) => index !== i))
-                                    }}> X</div>
-                                </div>
-                            ))}
+
+
                         </div>
                         <div className='ServicesFrom_from-mid-left'>
                             <textarea className='ServicesFrom_from-mid-inputtitle inputtitle2' type="text" placeholder='Название услуги' onClick={(e) => e.target.classList.add("inputtagcolor")}

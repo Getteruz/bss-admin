@@ -78,7 +78,7 @@ export default function ServicesList() {
                 <li className='list-itemtop'>
                     <input type="checkbox" />
                     <p className='list-itemtop-text'>ID</p>
-                    <p className='list-itemtop-text'>Picture</p>
+                    <p className='list-itemtop-text'></p>
                     <p className='list-itemtop-text'>Title</p>
                     <p className='list-itemtop-text'>Description</p>
                     <p className='list-itemtop-text'>Data</p>
@@ -90,7 +90,7 @@ export default function ServicesList() {
                         <li className='list-item'>
                             <input type="checkbox" />
                             <p className='list-item-text'>ID: {e?.id}</p>
-                            <div className='list-item-text  list-item-div2'><img src={e?.img[0].url} alt="" />{e?.img[1] ? <img src={e?.img[1].url} alt="" /> : ""}  {e?.img[2] ? <img src={e?.img[2].url} alt="" /> : ''}</div>
+                            <div className='list-item-text  list-item-div2'></div>
                             <p className='list-item-text'>{e.uz_title}</p>
                             <p className='list-item-text'>{e?.uz_text.slice(0, 50)}...</p>
                             <p className='list-item-text'>{e?.createdAt.slice(0, 10)}</p>

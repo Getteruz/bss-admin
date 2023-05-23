@@ -14,13 +14,13 @@ export default function ServicesAddFrom() {
     const { register, handleSubmit, control, formState: { errors }, watch } = useForm();
     const watchedFiles = watch()
 
-    const [img1, setImg1] = useState([])
+
 
     const [loading, setLoading] = useState(false)
 
     const HandleAddWebsite = async (data) => {
 
-        await createService({ img: img1, ...data })
+        await createService({ img: ["null"], ...data })
             .then((response) => {
                 if (response.status == 200) {
                     setLoading(false)
@@ -37,22 +37,7 @@ export default function ServicesAddFrom() {
             })
 
     }
-    const hendleimg = async (e) => {
-        if (e.target.files[0]) {
-            const formData = new FormData()
-            formData.append("image", e.target.files[0])
-            await UploadImg(formData)
-                .then((response) => {
-                    setImg1(status => [...status, response?.data])
 
-                })
-                .catch(error => {
-                    setLoading(false)
-                    toast(error.message)
-
-                })
-        }
-    }
 
     useEffect(() => {
         if (!['uz', 'ru', 'tr', 'en']?.includes(params.get('lang'))) {
@@ -80,19 +65,7 @@ export default function ServicesAddFrom() {
                     </ul>
                     <div className='ServicesFrom_from-mid mid2'>
                         <div className='mid2-div'>
-                            <label className='ServicesFrom_from-img img2' >
-                                <input className='img2-img' type={"file"} onChange={hendleimg} />
-                                <img className='ServicesFrom_from-imgvie2' src={img} alt="" width={105} height={81} />
-                            </label>
-                            {img1 && img1.map((e, i) => (
-                                <div className='ServicesFrom_from-imgviedivcha'>
-                                    <img key={i} className='ServicesFrom_from-imgvie' src={e?.url || img} alt="" width={105} height={81} />
-                                    <div onClick={() => {
-                                        DeleteImg({ path: e?.path })
-                                        setImg1((state) => state.filter((_, index) => index !== i))
-                                    }}> X</div>
-                                </div>
-                            ))}
+
                         </div>
                         <div className='ServicesFrom_from-mid-left'>
 
